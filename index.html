@@ -18,16 +18,16 @@
     <main class="container mx-auto px-4 py-8">
         <section>
             <!-- Status Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <div class="w-64 h-32 bg-gray-600 rounded-lg p-3 sm:p-4 border border-gray-700">
+            <div class="grid grid-cols-3 gap-2 mb-6">
+                <div class="w-64 h-32 bg-gray-400 rounded-lg p-3 sm:p-4 border border-gray-700">
                     <div class="text-xl sm:text-2xl font-bold text-white" id="totalTasks">0</div>
                     <div class="text-xs sm:text-sm">Total Tasks</div>
                 </div>
-                <div class="w-64 h-32 bg-gray-600 rounded-lg p-4 sm:p-4 border border-gray-700">
+                <div class="w-64 h-32 bg-gray-400 rounded-lg p-3 sm:p-4 border border-gray-700">
                     <div class="text-xl sm:text-2xl font-bold text-blue-500" id="activeTasks">0</div>
                     <div class="text-xs sm:text-sm">Active Tasks</div>
                 </div>
-                <div class=" w-64 h-32 bg-gray-600 card rounded-lg p-4 sm:p-4 border border-gray-700">
+                <div class=" w-64 h-32 bg-gray-400 card rounded-lg p-3 sm:p-4 border border-gray-700">
                     <div class="text-xl sm:text-2xl font-bold text-green-500" id="completedTasks">0</div>
                     <div class="text-xs sm:text-sm">Completed</div>
                 </div>
@@ -56,15 +56,14 @@
                         </select>
                     </div>
                     <div class="md:col-span-2">
-                        <button type="submit" class="w-full bg-blue-900 hover:bg-purple-900 transition duration-300 text-white font-semibold py-3 px-4 rounded-lg"><i class=" fas fa-plus mr-2">Add Task</i></button>
+                        <button type="submit" class="w-full bg-blue-900 hover:bg-purple-900 transition duration-300 text-white font-semibold py-3 px-4 rounded-lg"><i>Add Task</i></button>
                     </div>
             </form>
         </section>
         <!--Search Section part-->
         <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <div class="flex flex-col md: flex-row justify-between items-center space-x
-            y-4 md: space-y-0">
-                <div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-5">
                    <input type="text" id="searchInput" placeholder="Search tasks here..." class="w-full md:w-64 px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i> 
                 </div>
@@ -117,12 +116,12 @@
         </footer>
         <script>
             let tasks = [];
-            const form = document.getElementById('taskForm');
+            // Get DOM elements
+            const taskForm = document.getElementById('taskForm');
             const taskInput = document.getElementById('taskInput');
             const taskCategory = document.getElementById('taskCategory');
             const taskPriority = document.getElementById('taskPriority');
             const taskList = document.getElementById('taskList');
-            const emptyState = document.getElementById('emptyState');
             const taskCount = document.getElementById('taskCount');
             const totalTasksElement = document.getElementById('totalTasks');
             const activeTasksElement = document.getElementById('activeTasks');
@@ -132,34 +131,142 @@
             const categoryFilter = document.getElementById('categoryFilter');
             const priorityFilter = document.getElementById('priorityFilter');
 
-            // Get input values
+            // Load tasks from localStorage if available
+            if (localStorage.getItem('tasks')) {
+                tasks = JSON.parse(localStorage.getItem('tasks'));
+                renderTasks();
+                updateTaskCount();
+            }
+            // Add event listener for form submission
+            taskForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Get input values
                 const taskText = taskInput.value.trim();
                 const category = taskCategory.value;
                 const priority = taskPriority.value;
-            
-            // Validate input
+                // Validate input
                 if (taskText === '') {
                     alert('Please enter a task');
                     return;
                 }
-            
-            // Create new task object
+                // Create new task object
                 const newTask = {
                     id: Date.now(), 
                     text: taskText,
                     category: category,
                     priority: priority,
                     completed: false,
-                    createdAt: new Date().toISOString()
                 };
-             // Add to tasks array
+
+                // Add to tasks array
                 tasks.push(newTask);
 
-            // Save to localStorage
+                // Save to localStorage
                 saveTasks();
 
+                // Update UI
+                renderTasks();
+                updateTaskCount();
 
+                // Reset form
+                taskInput.value = '';
+                taskInput.focus();
+            });
 
-        </script>   
+            // Add event listeners for filters
+            searchInput.addEventListener('input', renderTasks);
+            statusFilter.addEventListener('change', renderTasks);
+            categoryFilter.addEventListener('change', renderTasks);
+            priorityFilter.addEventListener('change', renderTasks);
+
+            // Function to save tasks to localStorage
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            // Function to render tasks based on filters
+            function renderTasks() {
+                // Get filter values
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value;
+                const categoryValue = categoryFilter.value;
+                const priorityValue = priorityFilter.value;
+                // Filter tasks
+                let filteredTasks = tasks.filter(task => {
+                    const matchesSearch = task.text.toLowerCase().includes(searchTerm);
+                    const matchesStatus = statusValue === 'all' ||
+                        (statusValue === 'active' && !task.completed) ||
+                        (statusValue === 'completed' && task.completed);
+                    const matchesCategory = categoryValue === 'all' || task.category === categoryValue;
+                    const matchesPriority = priorityValue === 'all' || task.priority === priorityValue;
+
+                    return matchesSearch && matchesStatus && matchesCategory && matchesPriority;
+                });
+                // Clear task list
+                taskList.innerHTML = '';
+                // Show empty state if no tasks
+                if (filteredTasks.length === 0) {
+                    taskList.appendChild(emptyState);
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                // Add each task to the list
+                filteredTasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task-item flex items-center justify-between p-4 rounded-lg border border-gray-200 priority-${task.priority} ${task.completed ? 'bg-gray-100 task-completed' : 'bg-white'}`;
+
+                    taskElement.innerHTML = `
+                            <div class="flex items-center">
+                                <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                                    onchange="toggleTask(${task.id})" 
+                                    class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500 mr-3">
+                                <div>
+                                    <span class="text-gray-800 ${task.completed ? 'task-completed' : ''}">${task.text}</span>
+                                    <div class="flex items-center mt-1">
+                                        <span class="text-xs px-2 py-1 rounded-full ${getCategoryClass(task.category)}">${task.category}</span>
+                                        <span class="text-xs text-gray-500 ml-2">${formatDate(task.createdAt)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                    taskList.appendChild(taskElement);
+                });
+            }
+            // Function to toggle task completion status
+            function toggleTask(id) {
+                tasks = tasks.map(task => {
+                    if (task.id === id) {
+                        return { ...task, completed: !task.completed };
+                    }
+                    return task;
+                });
+                saveTasks();
+                renderTasks();
+                updateTaskCount();
+            }
+            // Function to update task counters
+            function updateTaskCount() {
+                const total = tasks.length;
+                const completed = tasks.filter(task => task.completed).length;
+                const active = total - completed;
+
+                totalTasksElement.textContent = total;
+                activeTasksElement.textContent = active;
+                completedTasksElement.textContent = completed;
+                taskCount.textContent = `${completed}/${total} tasks`;
+            }
+            // Helper function to get category class
+            function getCategoryClass(category) {
+                const classes = {
+                    personal: 'bg-purple-100 text-purple-800',
+                    school: 'bg-blue-100 text-blue-800',
+                    work: 'bg-green-100 text-green-800',
+                    other: 'bg-gray-100 text-gray-800'
+                };
+                return classes[category] || 'bg-gray-100 text-gray-800';
+            }
+        </script>
+    </main>    
 </body>
 </html>
