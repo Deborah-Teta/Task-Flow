@@ -16,31 +16,31 @@
             </div>
         </div>
     </header>   
-    <main>
+    <main class="container mx-auto px-4 py-8">
         <!--Add section part-->
-        <section>
-            <h2>Add a New Task</h2>
-            <form>
-                <div>
-                    <input type="text" id="taskinput" placeholder="Enter a task">
+        <section class="bg-white rouned-xl shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-white">Add a New Task</h2>
+            <form id="taskForm" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-5">
+                    <input type="text" id="taskinput" placeholder="Enter a task" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
                 </div>
-                <div>
-                    <select id="taskCategory">
+                <div class="md:col-span-3">
+                    <select id="taskCategory" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
                         <option value="personal">Personal</option>
                         <option value="school">school</option>
                         <option value="Work">Work</option>
                         <option value="other">other</option>
                     </select> 
                     </div>
-                    <div>
-                        <select id="taskPriority">
+                    <div class="md:col-span-2">
+                        <select id="taskPriority" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
                             <option value="personal">Low Priority</option>
                             <option value="school">Medium Priority</option>
                             <option value="Work">High Priority</option>
                         </select>
                     </div>
-                    <div>
-                        <button type="submit"><i>Add Task</i></button>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-blue-900 hover:bg-purple-900 transition duration-300 text-white font-semibold py-3 px-4 rounded-lg"><i class=" fas fa-plus mr-2">Add Task</i></button>
                     </div>
             </form>
         </section>
