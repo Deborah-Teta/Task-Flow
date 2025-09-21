@@ -45,16 +45,17 @@
             </form>
         </section>
         <!--Search Section part-->
-        <section>
-            <div>
-                <div>
-                    <button>All Tasks</button>
-                    <button>Active</button>
-                    <button>Completed</button>
+        <section class="bg-white rouned-xl shadow-md p-6 mb-8">
+            <div class="flex flex-col md: flex-row justify-between items-center space-x
+            y-4 md: space-y-0">
+                <div class="space-x-2">
+                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700" data-filter="all">All Tasks</button>
+                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700" data-filter="active">Active</button>  
+                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700" data-filter="completed">Completed</button>
                 </div>
                 <div>
-                   <input type="text" id="searchInput" placeholder="Search tasks here...">
-                   <i></i> 
+                   <input type="text" id="searchInput" placeholder="Search tasks here..." class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                   <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i> 
                 </div>
             </div>   
         </section>
