@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Flow | Prefessional To-do list</title>
+</head>
+<body>
+    <header>
+        <div>
+            <h1><i>Task Flow</i></h1>
+            <div>
+                <button id ="darkModeToggle">
+
+                </button>
+                <span id ="taskCount">0 tasks</span>
+            </div>
+        </div>
+    </header>   
+    <main>
+        <!--Add section part-->
+        <section>
+            <h2>Add a New Task</h2>
+            <form>
+                <div>
+                    <input type="text" id="taskinput" placeholder="Enter a task">
+                </div>
+                <div>
+                    <select id="taskCategory">
+                        <option value="personal">Personal</option>
+                        <option value="school">school</option>
+                        <option value="Work">Work</option>
+                        <option value="other">other</option>
+                    </select> 
+                    </div>
+                    <div>
+                        <select id="taskPriority">
+                            <option value="personal">Low Priority</option>
+                            <option value="school">Medium Priority</option>
+                            <option value="Work">High Priority</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit"><i>Add Task</i></button>
+                    </div>
+            </form>
+        </section>
+        <!--Search Section part-->
+        <section>
+            <div>
+                <div>
+                    <button>All Tasks</button>
+                    <button>Active</button>
+                    <button>Completed</button>
+                </div>
+                <div>
+                   <input type="text" id="searchInput" placeholder="Search tasks here...">
+                   <i></i> 
+                </div>
+            </div>   
+        </section>
+        <!--Task list part-->
+        <section>
+            <h2>Your Tasks</h2>
+            <div id="taskList">
+                <div id="emptyState">
+                    <p>No tasks yet. Add Some to started</p>
+                </div>
+            </div>
+        </section>
+        <!--Footer-->
+        <footer>
+            <div>
+                <p>TaskFlow - Task Management Application</p>
+            </div>
+            <div>
+                <p>&copy; 2025 Deborah TETA. All rights reserved</p>
+            </div>
+        </footer>
+</body>
+</html>
