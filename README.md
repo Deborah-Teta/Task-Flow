@@ -21,24 +21,9 @@ Technologies Used
 - Interactivity: javaScript
 - Styling: Tailwind CSS
 
-Project Structure
-/taskflow-app
-├── app/
-│ ├── globals.css
-│ ├── layout.tsx
-│ └── page.tsx
-├── components/
-│ ├── ui/
-│ │ ├── button.tsx
-│ │ ├── card.tsx
-│ │ ├── input.tsx
-│ │ ├── select.tsx
-│ │ ├── switch.tsx
-│ │ └── label.tsx
-│ └── todo-app.tsx
-├── lib/
-│ └── utils.ts
-├── README.md
+Project overview
+<img width="947" height="409" alt="image" src="https://github.com/user-attachments/assets/0a67fb55-5276-469d-b2bf-8ba09cf1b2e6" />
+<img width="944" height="314" alt="image" src="https://github.com/user-attachments/assets/631a1a79-f16b-42e3-b7b2-9e4755d7fef0" />
 
 Usage Guide
 
