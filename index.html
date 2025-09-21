@@ -115,24 +115,51 @@
                 <p>&copy; 2025 Deborah TETA. All rights reserved</p>
             </div>
         </footer>
-        <!--Javascript-->
         <script>
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            function init() {
-                    renderTasks();
-                    updateTaskCount();
-                    setupEventListeners();
+            let tasks = [];
+            const form = document.getElementById('taskForm');
+            const taskInput = document.getElementById('taskInput');
+            const taskCategory = document.getElementById('taskCategory');
+            const taskPriority = document.getElementById('taskPriority');
+            const taskList = document.getElementById('taskList');
+            const emptyState = document.getElementById('emptyState');
+            const taskCount = document.getElementById('taskCount');
+            const totalTasksElement = document.getElementById('totalTasks');
+            const activeTasksElement = document.getElementById('activeTasks');
+            const completedTasksElement = document.getElementById('completedTasks');
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priorityFilter = document.getElementById('priorityFilter');
 
-                    // Apply dark mode if enabled
-                    if (darkMode) {
-                        document.body.classList.add('dark-mode');
-                        document.querySelectorAll('.bg-white').forEach(el => {
-                            el.classList.remove('bg-white');
-                            el.classList.add('dark-card');
-                        });
-                        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                    }
+            // Get input values
+                const taskText = taskInput.value.trim();
+                const category = taskCategory.value;
+                const priority = taskPriority.value;
+            
+            // Validate input
+                if (taskText === '') {
+                    alert('Please enter a task');
+                    return;
                 }
-        </script>
+            
+            // Create new task object
+                const newTask = {
+                    id: Date.now(), 
+                    text: taskText,
+                    category: category,
+                    priority: priority,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+             // Add to tasks array
+                tasks.push(newTask);
+
+            // Save to localStorage
+                saveTasks();
+
+
+
+        </script>   
 </body>
 </html>
