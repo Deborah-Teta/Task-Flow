@@ -6,12 +6,13 @@
     <title>Task Flow | Prefessional To-do list</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="font-sans bg-black text-gray-600">
-    <header class="bg-purple-800 shadow-lg">
+<body class="font-sans bg-gray-200 min-h-screen">
+    <header class="bg-purple-900 shadow-lg">
         <div class="container mx-auto px-4 py-6 flex justify-between items-center">
             <h1 class="text-3xl font-bold text-white flex items-center"><i class="fas fa-tasks mr-3">Task Flow</i></h1>
             <div class="flex items-center space-x-4">
-                <button id ="darkModeToggle" class="bg-blue-700 hover: bg-blue-900 p-2 rouned-full fas fa-moon dark-mode:bg-black text-white"></button>
+                <button id ="darkModeToggle" class="bg-white hover: bg-blue-900 p-2 rounded-full"></button>
+                <i class="fas fa-moon"></i>
                 <span id ="taskCount" class="bg-blue-900 text-white px-3 py-1 rouned-full text-sm font-semibold">0 tasks</span>
             </div>
         </div>
@@ -22,10 +23,10 @@
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Add a New Task</h2>
             <form id="taskForm" class="grid grid-cols-1 md:grid-cols-12 gap-4">
                 <div class="md:col-span-5">
-                    <input type="text" id="taskinput" placeholder="Enter a task" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
+                    <input type="text" id="taskinput" placeholder="Enter a task" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
                 </div>
                 <div class="md:col-span-3">
-                    <select id="taskCategory" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
+                    <select id="taskCategory" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
                         <option value="personal">Personal</option>
                         <option value="school">school</option>
                         <option value="Work">Work</option>
@@ -33,10 +34,10 @@
                     </select> 
                     </div>
                     <div class="md:col-span-2">
-                        <select id="taskPriority" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus: border-blue-700">
-                            <option value="personal">Low Priority</option>
-                            <option value="school">Medium Priority</option>
-                            <option value="Work">High Priority</option>
+                        <select id="taskPriority" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
@@ -48,14 +49,35 @@
         <section class="bg-white rounded-lg shadow-md p-6 mb-8">
             <div class="flex flex-col md: flex-row justify-between items-center space-x
             y-4 md: space-y-0">
-                <div class="space-x-2">
-                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700 transition duration-300" data-filter="all">All Tasks</button>
-                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700 transition duration-300" data-filter="active">Active</button>  
-                    <button class="px-4 py-2 bg-gray-700 text-white rounded-lg hover: bg-blue-700 transition duration-300" data-filter="completed">Completed</button>
-                </div>
                 <div>
-                   <input type="text" id="searchInput" placeholder="Search tasks here..." class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                   <input type="text" id="searchInput" placeholder="Search tasks here..." class="w-full md:w-64 px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i> 
+                </div>
+                <div class="md:col-span-2">
+                    <select id="All tasks" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
+                        <option value="alltasks">All Tasks</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                    </select>
+
+                </div>
+                <div class="md:col-span-2">
+                    <select id="taskCategory"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
+                        <option value="all Categories">All Categories</option>
+                        <option value="personal">Personal</option>
+                        <option value="school">school</option>
+                        <option value="Work">Work</option>
+                        <option value="other">other</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <select id="taskPriority"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ring-blue-700">
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
                 </div>
             </div>   
         </section>
@@ -78,5 +100,24 @@
                 <p>&copy; 2025 Deborah TETA. All rights reserved</p>
             </div>
         </footer>
+        <!--Javascript-->
+        <script>
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            function init() {
+                    renderTasks();
+                    updateTaskCount();
+                    setupEventListeners();
+
+                    // Apply dark mode if enabled
+                    if (darkMode) {
+                        document.body.classList.add('dark-mode');
+                        document.querySelectorAll('.bg-white').forEach(el => {
+                            el.classList.remove('bg-white');
+                            el.classList.add('dark-card');
+                        });
+                        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    }
+                }
+        </script>
 </body>
 </html>
