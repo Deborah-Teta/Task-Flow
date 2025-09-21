@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Flow | Prefessional To-do list</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <header>
-        <div>
-            <h1><i>Task Flow</i></h1>
-            <div>
-                <button id ="darkModeToggle">
-
-                </button>
-                <span id ="taskCount">0 tasks</span>
+<body class="font-sans bg-black text-gray-600">
+    <header class="bg-purple-800 shadow-lg">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-white flex items-center"><i class="fas fa-tasks mr-3">Task Flow</i></h1>
+            <div class="flex items-center space-x-4">
+                <button id ="darkModeToggle" class="bg-blue-700 hover: bg-blue-900 p-2 rouned-full fas fa-moon dark-mode:bg-black text-white"></button>
+                <span id ="taskCount" class="bg-blue-900 text-white px-3 py-1 rouned-full text-sm font-semibold">0 tasks</span>
             </div>
         </div>
     </header>   
